@@ -2,10 +2,10 @@
 install_dependencies() {
     declare -A install_commands=(
         [brew]="echo | /bin/bash -c '$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)'"
-        [zsh]="sudo apt-get install zsh"  # Adjust for other package managers
-        [jq]="sudo apt-get install jq"    # Adjust for other package managers
+        [zsh]="sh -c '$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)'"  # Adjust for other package managers
+        [jq]="brew install jq"    # Adjust for other package managers
     )
-
+    
     for dep in "${missing_dependencies[@]}"; do
         if [ -n "${install_commands[$dep]}" ]; then
             echo "Installing $dep..."
@@ -47,9 +47,9 @@ if [ ${#missing_dependencies[@]} -gt 0 ]; then
     for dep in "${missing_dependencies[@]}"; do
         echo "- $dep"
     done
-
+    
     read -p "Do you want to install these dependencies? (y/n): " choice
-    case "$choice" in 
+    case "$choice" in
         y|Y ) install_dependencies ;;
         n|N ) echo "Installation cancelled." ;;
         * ) echo "Invalid input. Installation cancelled." ;;
